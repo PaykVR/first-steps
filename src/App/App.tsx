@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import { Layout, Button } from 'antd';
+import { Layout, Button, Card, Row, Col } from 'antd';
 
 const { Header, Footer, Content } = Layout;
 
@@ -11,28 +11,37 @@ function App() {
   return (
     <div className="App">
       <Layout>
-        <Header>
+        <Header style={{ boxShadow: '7px 7px 0px 0px #EBEBEB' }}>
           <h1>
             Payks VR Demos: Overview
           </h1>
         </Header>
-
+        
         <Content>
-          <p>
-            <h1>
-              VR Demos design for Oculus Quest 2
-            </h1>
 
-            <Button type="primary">Start VR</Button>
-          </p>
+        <Row>
+          <Col span={8}></Col>
+          <Col span={8}>
+            <Card style={{ display: 'inline-block', width: '100%', maxWidth: 300, margin:'15px', boxShadow: '7px 7px 0px 0px #EBEBEB' }}>
+              <h1>
+                VR Demos designed for Oculus Quest 2
+              </h1>
 
-          <p>
-            <h1>
-            360 Demos design mobile phones, tablets ect
-            </h1>
+              <Button type="primary">Start VR</Button>
+            </Card>
 
-            <Button type="primary">Start 360</Button>
-          </p>
+            <Card style={{ display: 'inline-block', width: '100%', maxWidth: 300, margin:'15px', boxShadow: '7px 7px 0px 0px #EBEBEB' }}>
+              <h1>
+                360 Demos designed mobile phones, tablets ect
+              </h1>
+
+              <Button type="primary">Start 360</Button>
+            </Card>
+          </Col>
+          <Col span={8}></Col>
+        </Row>
+
+
 
         </Content>
 
