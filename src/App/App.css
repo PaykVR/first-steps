@@ -1,0 +1,26 @@
+.App {
+    height: 100%;
+    display: block;
+}
+
+.ant-layout {
+    height: 100%;
+    text-align: center;
+}
+
+.ant-layout-header {
+    background: #7dbcea;
+}
+
+.ant-layout-footer {
+    background: #7dbcea;
+}
+
+.ant-layout-header h1 {
+    color: #fff;
+}
+
+.ant-layout-content {
+    flex: 1;
+    overflow-y: scroll;
+}
