@@ -110,7 +110,7 @@ function App() {
         </Content>
 
         <Footer>
-          Use Gyroscope <Switch onChange={onToggle} disabled={!window.DeviceOrientationEvent || !DeviceOrientationEvent.requestPermission} />
+          Use Gyroscope <Switch onChange={onToggle} />
         </Footer>
       </Layout>
     </AppContainer>
