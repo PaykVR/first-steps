@@ -69,33 +69,40 @@ const ContentLayer = styled.div`
     top: 0;
     bottom: 0;
     z-index: 8;
+    overflow-x: hidden;
+    overflow-y: auto;
 `;
 
 const calc = (x: number, y: number) => [x - window.innerWidth / 2, y - window.innerHeight / 2];
-const trans1 = (x: number, y: number): string => `${x / 12}px, 100%`;
-const trans2 = (x: number, y: number): string => `${x / 10}px, 100%`;
-const trans3 = (x: number, y: number): string => `${x / 8}px, 100%`;
-const trans4 = (x: number, y: number): string => `${x / 6}px, 100%`;
-const trans5 = (x: number, y: number): string => `${x / 4}px, 100%`;
-const trans6 = (x: number, y: number): string => `${x / 2}px, 100%`;
-const trans7 = (x: number, y: number): string => `${x / 1}px, 100%`;
+const trans1 = (x: number, y: number): string => `${-x / 24}px, 100%`;
+const trans2 = (x: number, y: number): string => `${-x / 20}px, 100%`;
+const trans3 = (x: number, y: number): string => `${-x / 16}px, 100%`;
+const trans4 = (x: number, y: number): string => `${-x / 12}px, 100%`;
+const trans5 = (x: number, y: number): string => `${-x / 8}px, 100%`;
+const trans6 = (x: number, y: number): string => `${-x / 4}px, 100%`;
+const trans7 = (x: number, y: number): string => `${-x / 2}px, 100%`;
 
 interface MyProps {
     children?: React.ReactNode;
+    parallaxValue: number;
 }
 
 const ContentWithParallax : React.FunctionComponent<MyProps> = cProps => {
-    const [props, set] = useSpring(() => ({ xy: [0, 0], config: { mass: 10, tension: 550, friction: 140 } }))
+    const [props, set] = useSpring(() => ({ x: 0, config: { mass: 10, tension: 550, friction: 140 } }));
+
+    if (cProps.parallaxValue !== props.x.getValue()) {
+        set({ x: cProps.parallaxValue });
+    }
 
     return (
-      <ContentWrapper onMouseMove={({ clientX: x, clientY: y }) => set({ xy: calc(x, y) })}>
-          <Layer1 style={{ backgroundPosition: props.xy.interpolate(trans1 as any) }}/>
-          <Layer2 style={{ backgroundPosition: props.xy.interpolate(trans2 as any) }}/>
-          <Layer3 style={{ backgroundPosition: props.xy.interpolate(trans3 as any) }}/>
-          <Layer4 style={{ backgroundPosition: props.xy.interpolate(trans4 as any) }}/>
-          <Layer5 style={{ backgroundPosition: props.xy.interpolate(trans5 as any) }}/>
-          <Layer6 style={{ backgroundPosition: props.xy.interpolate(trans6 as any) }}/>
-          <Layer7 style={{ backgroundPosition: props.xy.interpolate(trans7 as any) }}/>
+      <ContentWrapper>
+          <Layer1 style={{ backgroundPosition: props.x.interpolate(trans1 as any) }}/>
+          <Layer2 style={{ backgroundPosition: props.x.interpolate(trans2 as any) }}/>
+          <Layer3 style={{ backgroundPosition: props.x.interpolate(trans3 as any) }}/>
+          <Layer4 style={{ backgroundPosition: props.x.interpolate(trans4 as any) }}/>
+          <Layer5 style={{ backgroundPosition: props.x.interpolate(trans5 as any) }}/>
+          <Layer6 style={{ backgroundPosition: props.x.interpolate(trans6 as any) }}/>
+          <Layer7 style={{ backgroundPosition: props.x.interpolate(trans7 as any) }}/>
 
           <ContentLayer>
             {cProps.children}

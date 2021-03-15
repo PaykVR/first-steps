@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import styled from 'styled-components';
-import { Layout as pLayout, Button, Card as pCard, Row, Col } from 'antd';
+import { Layout as pLayout, Button, Card as pCard, Row, Col, Switch } from 'antd';
 
 import ContentWithParallax from './Components/ContentWithParallax';
+import {useDeviceOrientation} from './Hooks/UseDevcieOrientation';
+
 
 const pHeader = pLayout.Header;
 const pFooter = pLayout.Footer;
@@ -32,8 +34,6 @@ const Footer = styled(pFooter)`
 
 const Content = styled(pContent)`
   flex: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
 `;
 
 const Card = styled(pCard)`
@@ -45,17 +45,40 @@ const Card = styled(pCard)`
 `;
 
 function App() {
+  const [gyroEnabled, setGyroEnabled] = useState(false);
+  const [parallaxValue, setParallaxValue] = useState(0);
+
+  const { orientation, requestAccess, revokeAccess } = useDeviceOrientation();
+
+  const onToggle = (toggleState: boolean): void => {
+    setGyroEnabled(toggleState);
+    const result = toggleState ? requestAccess() : revokeAccess();
+  };
+
+  if (gyroEnabled && orientation !== null && orientation.gamma !== null) {
+    setParallaxValue(orientation.gamma * 100);
+  }
+
+
   return (
-    <AppContainer>
+    <AppContainer onMouseMove={({ clientX: x, clientY: y }) => { if (!gyroEnabled) { setParallaxValue(x); } }}>
       <Layout>
         <Header>
-          <h1>
-            Payks VR Demos: Overview
-          </h1>
+          <Row>
+            <Col span={6}></Col>
+            <Col span={12}>
+            <h1>
+              Payks VR Demos: Overview
+            </h1>
+            </Col>
+            <Col span={6}>
+              Use Gyroscope <Switch onChange={onToggle} />
+            </Col>
+          </Row>
         </Header>
         
         <Content>
-          <ContentWithParallax>
+          <ContentWithParallax parallaxValue={parallaxValue}>
             <Row>
               <Col span={8}></Col>
               <Col span={8}>
