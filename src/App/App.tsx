@@ -3,9 +3,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { Layout as pLayout, Button, Card as pCard, Row, Col } from 'antd';
 
+import ContentWithParallax from './Components/ContentWithParallax';
+
 const pHeader = pLayout.Header;
 const pFooter = pLayout.Footer;
 const pContent = pLayout.Content;
+
+const boxShadow = '7px 7px 0px 0px rgba(0, 0, 0, .25)'
 
 const AppContainer = styled.div`
   height: 100%;
@@ -15,7 +19,7 @@ const AppContainer = styled.div`
 
 const Header = styled(pHeader)`
   background: #7dbcea;
-  box-shadow: 7px 7px 0px 0px #EBEBEB;
+  box-shadow: ${boxShadow};
 `;
 
 const Layout = styled(pLayout)`
@@ -37,7 +41,7 @@ const Card = styled(pCard)`
   width: 100%;
   max-width: 300;
   margin: 15px;
-  box-shadow: 7px 7px 0px 0px #EBEBEB;
+  box-shadow: ${boxShadow};
 `;
 
 function App() {
@@ -51,27 +55,29 @@ function App() {
         </Header>
         
         <Content>
-          <Row>
-            <Col span={8}></Col>
-            <Col span={8}>
-              <Card>
-                <h3>
-                  VR Demos designed for Oculus Quest 2
-                </h3>
+          <ContentWithParallax>
+            <Row>
+              <Col span={8}></Col>
+              <Col span={8}>
+                <Card>
+                  <h3>
+                    VR Demos designed for Oculus Quest 2
+                  </h3>
 
-                <Button type="primary">Start VR</Button>
-              </Card>
+                  <Button type="primary">Start VR</Button>
+                </Card>
 
-              <Card>
-                <h3>
-                  360 Demos designed mobile phones, tablets ect
-                </h3>
+                <Card>
+                  <h3>
+                    360 Demos designed mobile phones, tablets ect
+                  </h3>
 
-                <Button type="primary">Start 360</Button>
-              </Card>
-            </Col>
-            <Col span={8}></Col>
-          </Row>
+                  <Button type="primary">Start 360</Button>
+                </Card>
+              </Col>
+              <Col span={8}></Col>
+            </Row>
+          </ContentWithParallax>
         </Content>
 
         <Footer>
