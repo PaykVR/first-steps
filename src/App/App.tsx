@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 import { Layout as pLayout, Button, Card as pCard, Row, Col, Switch } from 'antd';
 
 import ContentWithParallax from './Components/ContentWithParallax';
-import {useDeviceOrientation} from './Hooks/UseDevcieOrientation';
-
+import { useDeviceOrientation } from './Hooks/UseDevcieOrientation';
 
 const pHeader = pLayout.Header;
 const pFooter = pLayout.Footer;
@@ -52,11 +51,26 @@ function App() {
 
   const onToggle = (toggleState: boolean): void => {
     setGyroEnabled(toggleState);
-    const result = toggleState ? requestAccess() : revokeAccess();
+    if (toggleState) {
+      requestAccess();
+    }
+    else {
+      revokeAccess();
+    }
   };
 
-  if (gyroEnabled && orientation !== null && orientation.gamma !== null) {
-    setParallaxValue(orientation.gamma * 100);
+  if (gyroEnabled && orientation !== null && orientation.gamma !== null && orientation.alpha !== null) {
+    let newValue = orientation.alpha * 100;
+    const mql = window.matchMedia("(orientation: portrait)");
+
+    if (mql.matches) {
+      newValue = orientation.gamma * 100;
+    }
+
+    if (parallaxValue !== newValue) {
+      setParallaxValue(newValue);
+    }
+    console.log(orientation);
   }
 
 
@@ -64,19 +78,11 @@ function App() {
     <AppContainer onMouseMove={({ clientX: x, clientY: y }) => { if (!gyroEnabled) { setParallaxValue(x); } }}>
       <Layout>
         <Header>
-          <Row>
-            <Col span={6}></Col>
-            <Col span={12}>
-            <h1>
-              Payks VR Demos: Overview
+          <h1>
+            Payks VR Demos: Overview
             </h1>
-            </Col>
-            <Col span={6}>
-              Use Gyroscope <Switch onChange={onToggle} />
-            </Col>
-          </Row>
         </Header>
-        
+
         <Content>
           <ContentWithParallax parallaxValue={parallaxValue}>
             <Row>
@@ -104,7 +110,7 @@ function App() {
         </Content>
 
         <Footer>
-          Some disclaimer stuff
+          Use Gyroscope <Switch onChange={onToggle} />
         </Footer>
       </Layout>
     </AppContainer>

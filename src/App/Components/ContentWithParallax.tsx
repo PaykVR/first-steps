@@ -73,7 +73,6 @@ const ContentLayer = styled.div`
     overflow-y: auto;
 `;
 
-const calc = (x: number, y: number) => [x - window.innerWidth / 2, y - window.innerHeight / 2];
 const trans1 = (x: number, y: number): string => `${-x / 24}px, 100%`;
 const trans2 = (x: number, y: number): string => `${-x / 20}px, 100%`;
 const trans3 = (x: number, y: number): string => `${-x / 16}px, 100%`;
@@ -87,7 +86,7 @@ interface MyProps {
     parallaxValue: number;
 }
 
-const ContentWithParallax : React.FunctionComponent<MyProps> = cProps => {
+const ContentWithParallax: React.FunctionComponent<MyProps> = cProps => {
     const [props, set] = useSpring(() => ({ x: 0, config: { mass: 10, tension: 550, friction: 140 } }));
 
     if (cProps.parallaxValue !== props.x.getValue()) {
@@ -95,20 +94,20 @@ const ContentWithParallax : React.FunctionComponent<MyProps> = cProps => {
     }
 
     return (
-      <ContentWrapper>
-          <Layer1 style={{ backgroundPosition: props.x.interpolate(trans1 as any) }}/>
-          <Layer2 style={{ backgroundPosition: props.x.interpolate(trans2 as any) }}/>
-          <Layer3 style={{ backgroundPosition: props.x.interpolate(trans3 as any) }}/>
-          <Layer4 style={{ backgroundPosition: props.x.interpolate(trans4 as any) }}/>
-          <Layer5 style={{ backgroundPosition: props.x.interpolate(trans5 as any) }}/>
-          <Layer6 style={{ backgroundPosition: props.x.interpolate(trans6 as any) }}/>
-          <Layer7 style={{ backgroundPosition: props.x.interpolate(trans7 as any) }}/>
+        <ContentWrapper>
+            <Layer1 style={{ backgroundPosition: props.x.interpolate(trans1 as any) }} />
+            <Layer2 style={{ backgroundPosition: props.x.interpolate(trans2 as any) }} />
+            <Layer3 style={{ backgroundPosition: props.x.interpolate(trans3 as any) }} />
+            <Layer4 style={{ backgroundPosition: props.x.interpolate(trans4 as any) }} />
+            <Layer5 style={{ backgroundPosition: props.x.interpolate(trans5 as any) }} />
+            <Layer6 style={{ backgroundPosition: props.x.interpolate(trans6 as any) }} />
+            <Layer7 style={{ backgroundPosition: props.x.interpolate(trans7 as any) }} />
 
-          <ContentLayer>
-            {cProps.children}
-          </ContentLayer>
-      </ContentWrapper>
+            <ContentLayer>
+                {cProps.children}
+            </ContentLayer>
+        </ContentWrapper>
     );
 }
-  
+
 export default ContentWithParallax;

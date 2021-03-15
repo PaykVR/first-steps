@@ -31,7 +31,7 @@ export const useDeviceOrientation = (): UseDeviceOrientationData => {
   };
 
   const requestAccessAsync = async (): Promise<boolean> => {
-    if (!DeviceOrientationEvent) {
+    if (!window.DeviceOrientationEvent) {
       setError(new Error('Device orientation event is not supported by your browser'));
       return false;
     }
