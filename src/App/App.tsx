@@ -10,7 +10,7 @@ const pHeader = pLayout.Header;
 const pFooter = pLayout.Footer;
 const pContent = pLayout.Content;
 
-const boxShadow = '7px 7px 0px 0px rgba(0, 0, 0, .25)'
+const boxShadow = '7px 7px 0px 0px rgba(0, 0, 0, .25)';
 
 const AppContainer = styled.div`
   height: 100%;
@@ -110,7 +110,7 @@ function App() {
         </Content>
 
         <Footer>
-          Use Gyroscope <Switch onChange={onToggle} />
+          Use Gyroscope <Switch onChange={onToggle} disabled={!window.DeviceOrientationEvent || !DeviceOrientationEvent.requestPermission} />
         </Footer>
       </Layout>
     </AppContainer>
