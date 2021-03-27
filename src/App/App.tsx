@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
-import { Layout as pLayout, Button, Card as pCard, Row, Col, Switch } from 'antd';
+import { Layout as pLayout, Modal, Button, Card as pCard, Switch } from 'antd';
+
 
 import ContentWithParallax from './Components/ContentWithParallax';
+import SceneComponent from './Components/SceneComponent';
+
 import { useDeviceOrientation } from './Hooks/UseDevcieOrientation';
 
 const pHeader = pLayout.Header;
@@ -38,14 +41,20 @@ const Content = styled(pContent)`
 const Card = styled(pCard)`
   display: inline-block;
   width: 100%;
-  max-width: 300;
-  margin: 15px;
+  max-width: 350px;
   box-shadow: ${boxShadow};
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 function App() {
   const [gyroEnabled, setGyroEnabled] = useState(false);
   const [parallaxValue, setParallaxValue] = useState(0);
+
+  const [modalEnabled, setModalEnabled] = useState(false);
+
 
   const { orientation, requestAccess, revokeAccess } = useDeviceOrientation();
 
@@ -59,12 +68,12 @@ function App() {
     }
   };
 
-  if (gyroEnabled && orientation !== null && orientation.gamma !== null && orientation.alpha !== null) {
-    let newValue = orientation.alpha * 100;
+  if (gyroEnabled && modalEnabled && orientation !== null && orientation.gamma !== null && orientation.alpha !== null) {
+    let newValue = orientation.alpha * 50;
     const mql = window.matchMedia("(orientation: portrait)");
 
     if (mql.matches) {
-      newValue = orientation.gamma * 100;
+      newValue = orientation.gamma * 50;
     }
 
     if (parallaxValue !== newValue) {
@@ -75,7 +84,7 @@ function App() {
 
 
   return (
-    <AppContainer onMouseMove={({ clientX: x, clientY: y }) => { if (!gyroEnabled) { setParallaxValue(x); } }}>
+    <AppContainer onMouseMove={({ clientX: x, clientY: y }) => { if (!modalEnabled && !gyroEnabled) { setParallaxValue(x); } }}>
       <Layout>
         <Header>
           <h1>
@@ -85,27 +94,16 @@ function App() {
 
         <Content>
           <ContentWithParallax parallaxValue={parallaxValue}>
-            <Row>
-              <Col span={8}></Col>
-              <Col span={8}>
-                <Card>
-                  <h3>
-                    VR Demos designed for Oculus Quest 2
-                  </h3>
+            <Card>
+              <h3>
+                VR Demos designed for Oculus Quest 2
+              </h3>
+              <p>
+                (but they work on desktop/mobile etc)
+              </p>
 
-                  <Button type="primary">Start VR</Button>
-                </Card>
-
-                <Card>
-                  <h3>
-                    360 Demos designed mobile phones, tablets ect
-                  </h3>
-
-                  <Button type="primary">Start 360</Button>
-                </Card>
-              </Col>
-              <Col span={8}></Col>
-            </Row>
+              <Button type="primary" onClick={() => setModalEnabled(true)}>Start VR</Button>
+            </Card>
           </ContentWithParallax>
         </Content>
 
@@ -113,6 +111,17 @@ function App() {
           Use Gyroscope <Switch onChange={onToggle} />
         </Footer>
       </Layout>
+
+
+      <Modal
+        visible={modalEnabled}
+        title="VR"
+        centered
+        onCancel={() => setModalEnabled(false)}
+        footer={null}
+      >
+        <SceneComponent />
+      </Modal>
     </AppContainer>
   );
 }
