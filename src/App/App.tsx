@@ -97,7 +97,7 @@ function App() {
                 VR Demos designed for Oculus Quest 2
               </h3>
               <p>
-                (but they work on desktop/mobile etc)
+                (but they should work on desktop/mobile etc)
               </p>
 
               <Button type="primary" onClick={() => setModalEnabled(true)}>Start VR</Button>
@@ -117,7 +117,7 @@ function App() {
         onCancel={() => setModalEnabled(false)}
         footer={null}
       >
-        <SceneComponent />
+        {modalEnabled && <SceneComponent />}
       </Modal>
     </AppContainer>
   );

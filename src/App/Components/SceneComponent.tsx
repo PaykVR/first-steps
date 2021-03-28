@@ -49,9 +49,6 @@ const SceneComponent: React.FunctionComponent<MyProps> = props => {
 
         let anchor = new TransformNode("");
 
-
-
-
         // Create the 3D UI manager
         let manager = new GUI3DManager(scene);
 
@@ -60,7 +57,8 @@ const SceneComponent: React.FunctionComponent<MyProps> = props => {
 
         manager.addControl(panel);
         panel.linkToTransformNode(anchor);
-        panel.position.z = -1.5;
+        panel.position.z = 1;
+        panel.position.y = 4;
 
         // Let's add some buttons!
         let addButton = function (i: number) {
