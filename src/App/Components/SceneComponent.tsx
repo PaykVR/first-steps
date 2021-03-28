@@ -1,4 +1,6 @@
-import { Engine, Scene, FreeCamera, MeshBuilder, Vector3, HemisphericLight } from "@babylonjs/core";
+import { Engine, Scene, FreeCamera, TransformNode, Vector3, HemisphericLight } from "@babylonjs/core";
+import { GUI3DManager, SpherePanel, Button3D, TextBlock } from "babylonjs-gui";
+
 import React, { useEffect, useRef } from "react";
 
 import styled from 'styled-components';
@@ -33,7 +35,6 @@ const SceneComponent: React.FunctionComponent<MyProps> = props => {
 
         // Create and position a free camera.
         let camera = new FreeCamera('camera-1', new Vector3(0, 5, -10), scene);
-
         // Point the camera at scene origin.
         camera.setTarget(Vector3.Zero());
 
@@ -46,14 +47,39 @@ const SceneComponent: React.FunctionComponent<MyProps> = props => {
         // Set light intensity to a lower value (default is 1).
         light.intensity = 0.5;
 
-        // Add one of Babylon's built-in sphere shapes.
-        let sphere = MeshBuilder.CreateSphere('sphere-1', {
-          diameter: 2,
-          segments: 32
-        }, scene);
+        let anchor = new TransformNode("");
 
-        // Position the sphere up by half of its height.
-        sphere.position.y = 1;
+
+
+
+        // Create the 3D UI manager
+        let manager = new GUI3DManager(scene);
+
+        let panel = new SpherePanel();
+        panel.margin = 0.2;
+
+        manager.addControl(panel);
+        panel.linkToTransformNode(anchor);
+        panel.position.z = -1.5;
+
+        // Let's add some buttons!
+        let addButton = function (i: number) {
+          let button = new Button3D("reset")
+          panel.addControl(button);
+
+          let text1 = new TextBlock();
+          text1.text = "test" + i;
+          text1.color = "white";
+          text1.fontSize = 24;
+          button.content = text1;
+        }
+
+        panel.blockLayout = true;
+        for (let index = 0; index < 60; index++) {
+          addButton(index);
+        }
+        panel.blockLayout = false;
+
 
         // Create a default environment for the scene.
         scene.createDefaultEnvironment();

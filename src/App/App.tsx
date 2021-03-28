@@ -55,7 +55,6 @@ function App() {
 
   const [modalEnabled, setModalEnabled] = useState(false);
 
-
   const { orientation, requestAccess, revokeAccess } = useDeviceOrientation();
 
   const onToggle = (toggleState: boolean): void => {
@@ -68,7 +67,7 @@ function App() {
     }
   };
 
-  if (gyroEnabled && modalEnabled && orientation !== null && orientation.gamma !== null && orientation.alpha !== null) {
+  if (gyroEnabled && !modalEnabled && orientation !== null && orientation.gamma !== null && orientation.alpha !== null) {
     let newValue = orientation.alpha * 50;
     const mql = window.matchMedia("(orientation: portrait)");
 
@@ -81,7 +80,6 @@ function App() {
     }
     console.log(orientation);
   }
-
 
   return (
     <AppContainer onMouseMove={({ clientX: x, clientY: y }) => { if (!modalEnabled && !gyroEnabled) { setParallaxValue(x); } }}>
@@ -111,7 +109,6 @@ function App() {
           Use Gyroscope <Switch onChange={onToggle} />
         </Footer>
       </Layout>
-
 
       <Modal
         visible={modalEnabled}
